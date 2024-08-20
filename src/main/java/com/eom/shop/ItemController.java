@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -68,9 +70,14 @@ public class ItemController {
 	}
 
 	@PostMapping("/edit/save/{id}")
-	public String editItem(@PathVariable Long id, @ModelAttribute Item item){
+	String editItem(@PathVariable Long id, @ModelAttribute Item item){
 		itemService.editItem(item);
 		return "redirect:/list";
 	}
 
+	@PostMapping("/test1")
+	String test1(@RequestBody Map<String, Object> body){
+		System.out.println(body);
+		return "redirect:/list";
+	}
 }
