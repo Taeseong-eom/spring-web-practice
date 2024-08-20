@@ -61,8 +61,7 @@ public class ItemController {
 		Optional<Item> result = itemService.findById(id);
 
 		if (result.isPresent()) {
-			Item item = result.get();
-			model.addAttribute("item", item);
+			model.addAttribute("item", result.get());
 			return "edit.html";
 		} else {
 			return "redirect:/list";
@@ -75,9 +74,9 @@ public class ItemController {
 		return "redirect:/list";
 	}
 
-	@PostMapping("/test1")
-	String test1(@RequestBody Map<String, Object> body){
-		System.out.println(body);
+	@GetMapping("/test1")
+	String test1(@RequestParam String name){
+		System.out.println(name);
 		return "redirect:/list";
 	}
 }
