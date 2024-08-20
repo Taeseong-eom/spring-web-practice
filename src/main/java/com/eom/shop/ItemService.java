@@ -30,6 +30,9 @@ public class ItemService {
 	}
 
 	public void editItem(Item item){
+		if(100 <= item.getTitle().length()){
+			throw new IllegalArgumentException("제목이 100자 이상임. 다시 적으셈");
+		}
 		itemRepository.save(item);
 	}
 }
