@@ -19,6 +19,7 @@
                 <a th:href="@{/detail/{id}(id=${i.id})}" th:text="${i.title}">바지</a>
             </h4>
             <h4 th:text="${i.price}">7억</h4>
+            <a th:href="@{/edit/{id}(id=${i.id})}" class="btn btn-primary">수정</a>
         </div>
     </div>
 

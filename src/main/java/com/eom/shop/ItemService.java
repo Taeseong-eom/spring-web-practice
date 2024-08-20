@@ -28,4 +28,8 @@ public class ItemService {
 		Optional<Item> result = itemRepository.findById(id);
 		return result;
 	}
+
+	public void editItem(Item item){
+		itemRepository.save(item);
+	}
 }

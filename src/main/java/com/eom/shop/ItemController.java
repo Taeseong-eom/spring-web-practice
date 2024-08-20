@@ -19,9 +19,9 @@ public class ItemController {
 	@GetMapping("/list")
 	String list(Model model) {
 
-		List<Item> result = itemService.findItem();
+		List<Item> result = itemService.findItem(); // DB에서 데이터 가져옴
 
-		model.addAttribute("items", result);
+		model.addAttribute("items", result); // 가져온 정보 전달
 		var a = new Item();
 		System.out.println(a.toString());
 		return "list.html";
@@ -53,5 +53,24 @@ public class ItemController {
 		}
 	}
 
+	@GetMapping("/edit/{id}")
+	String edit(@PathVariable Long id, Model model) {
+
+		Optional<Item> result = itemService.findById(id);
+
+		if (result.isPresent()) {
+			Item item = result.get();
+			model.addAttribute("item", item);
+			return "edit.html";
+		} else {
+			return "redirect:/list";
+		}
+	}
+
+	@PostMapping("/edit/save/{id}")
+	public String editItem(@PathVariable Long id, @ModelAttribute Item item){
+		itemService.editItem(item);
+		return "redirect:/list";
+	}
 
 }

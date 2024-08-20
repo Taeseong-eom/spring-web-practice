@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>상품 수정</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>상품 수정</h1>
+  <form th:action="@{/edit/save/{id}(id=${item.id})}" th:object="${item}" method="post">
+    <div class="form-group">
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" th:value="*{title}" class="form-control" required />
+    </div>
+    <div class="form-group">
+      <label for="price">가격</label>
+      <input type="number" id="price" name="price" th:value="*{price}" class="form-control" required />
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">제출</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
