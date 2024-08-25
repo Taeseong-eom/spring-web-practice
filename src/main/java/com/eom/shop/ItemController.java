@@ -1,7 +1,6 @@
 package com.eom.shop;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -79,5 +77,11 @@ public class ItemController {
 	String test1(@RequestBody Map<String, Object> body){
 		System.out.println(body);
 		return "redirect:/list";
+	}
+
+	@DeleteMapping("/item")
+	ResponseEntity<String> delateItem(@RequestParam Long id){
+		itemRepository.deleteById(id);
+		return ResponseEntity.status(200).body("삭제완료");
 	}
 }
