@@ -1,4 +1,4 @@
-package com.eom.shop;
+package com.eom.shop.item;
 
 import jakarta.persistence.*;
 import lombok.Getter;

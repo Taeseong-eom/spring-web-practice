@@ -1,4 +1,4 @@
-package com.eom.shop;
+package com.eom.shop.item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
