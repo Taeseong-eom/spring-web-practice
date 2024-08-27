@@ -1,6 +1,7 @@
 package com.eom.shop.member;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -33,5 +34,16 @@ public class MemberController {
 
         memberRepository.save(member);
         return "redirect:/list";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login.html";
+    }
+
+    @GetMapping("/my-page")
+    String myPage(Authentication auth){
+        System.out.println(auth);
+        return "mypage.html";
     }
 }

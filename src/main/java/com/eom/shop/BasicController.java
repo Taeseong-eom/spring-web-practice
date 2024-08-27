@@ -12,7 +12,7 @@ import static java.time.LocalDate.now;
 public class BasicController {
 	@GetMapping("/")
 	String hello(){
-		return "index.html";
+		return "redirect:/index.html";
 	}
 
 	@GetMapping("/about")
