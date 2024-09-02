@@ -1,13 +1,13 @@
 package com.eom.shop.member;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 @Controller
 @RequiredArgsConstructor
@@ -43,7 +43,8 @@ public class MemberController {
 
     @GetMapping("/my-page")
     String myPage(Authentication auth){
-        System.out.println(auth);
+        var result = (CustomUser) auth.getPrincipal();
+        System.out.println(auth.getPrincipal());
         return "mypage.html";
     }
 }
