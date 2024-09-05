@@ -3,38 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="/main.css" rel="stylesheet">
 </head>
 <body>
 
-    <div th:replace="~{ nav.html::navbar }"></div>
+<div th:replace="~{ nav.html::navbar }"></div>
 
-    <div class="card" th:each="i:${items}">
-        <img src = "https://placehold.co/300">
-        <div>
-            <h4>
-                <a th:href="@{/detail/{id}(id=${i.id})}" th:text="${i.title}">바지</a>
-            </h4>
-            <h4 th:text="${i.price}">7억</h4>
-            <a th:href="@{/edit/{id}(id=${i.id})}" class="btn btn-primary">수정</a>
-            <span th:onclick="fetch('/item?id=[[${i.id}]]', { method : 'DELETE' } )
+<div class="card" th:each="i:${items}">
+    <img src = "https://placehold.co/300">
+    <div>
+        <h4>
+            <a th:href="@{/detail/{id}(id=${i.id})}" th:text="${i.title}">바지</a>
+        </h4>
+        <h4 th:text="${i.price}">7억</h4>
+        <a th:href="@{/edit/{id}(id=${i.id})}" class="btn btn-primary">수정</a>
+        <span th:onclick="fetch('/item?id=[[${i.id}]]', { method : 'DELETE' } )
                 .then(r => r.text())
                 .then(() =>{
                     location.reload();
                 })
             ">🗑️</span>
-        </div>
     </div>
+</div>
 
-    <button class="btn action-button">버튼</button>
+<!-- Pagination Controls -->
+<div class="pagination">
+    <!-- Previous Button -->
+    <button th:if="${currentPage > 1}"
+            th:onclick="|window.location.href='@{/list/page/{num}(num=${currentPage - 1})}'|">
+        Previous
+    </button>
 
-    <script>
+    <!-- Page Number Buttons -->
+    <span th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
+            <button th:classappend="${pageNum == currentPage} ? 'active'"
+                    th:onclick="|window.location.href='@{/list/page/{num}(num=${pageNum})}'|"
+                    th:text="${pageNum}"></button>
+        </span>
+
+    <!-- Next Button -->
+    <button th:if="${currentPage < totalPages}"
+            th:onclick="|window.location.href='@{/list/page/{num}(num=${currentPage + 1})}'|">
+        Next
+    </button>
+</div>
+
+<button class="btn action-button">버튼</button>
+
+<script>
         document.querySelector('.action-button').addEventListener('click', function(){
             fetch('/test1?name=eom&age=20')
-        })
+        });
     </script>
 </body>
 </html>

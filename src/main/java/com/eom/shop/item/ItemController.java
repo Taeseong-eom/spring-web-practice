@@ -1,6 +1,8 @@
 package com.eom.shop.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,11 @@ public class ItemController {
 		List<Item> result = itemService.findItem(); // DB에서 데이터 가져옴
 
 		model.addAttribute("items", result); // 가져온 정보 전달
+
+		// 페이지네이션 변수 추가 설정
+		model.addAttribute("currentPage", 1); // 기본값 설정
+		model.addAttribute("totalPages", 1);  // 기본값 설정
+
 		var a = new Item();
 		System.out.println(a.toString());
 		return "list.html";
@@ -81,5 +88,16 @@ public class ItemController {
 	ResponseEntity<String> delateItem(@RequestParam Long id){
 		itemRepository.deleteById(id);
 		return ResponseEntity.status(200).body("삭제완료");
+	}
+
+	@GetMapping("/list/page/{num}")
+	String getListPage(Model model, @PathVariable Integer num) {
+
+		Page<Item> result = itemRepository.findPageBy(PageRequest.of(num-1, 5));
+		System.out.println(result.getTotalPages());
+		model.addAttribute("items", result); // 가져온 정보 전달
+		model.addAttribute("currentPage", num); // 현재 페이지 번호 전달
+		model.addAttribute("totalPages", result.getTotalPages()); // 전체 페이지 수 전달
+		return "list.html";
 	}
 }
