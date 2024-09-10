@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,18 +19,7 @@ public class ItemController {
 
 	@GetMapping("/list")
 	String list(Model model) {
-
-		List<Item> result = itemService.findItem(); // DB에서 데이터 가져옴
-
-		model.addAttribute("items", result); // 가져온 정보 전달
-
-		// 페이지네이션 변수 추가 설정
-		model.addAttribute("currentPage", 1); // 기본값 설정
-		model.addAttribute("totalPages", 1);  // 기본값 설정
-
-		var a = new Item();
-		System.out.println(a.toString());
-		return "list.html";
+		return "redirect:/list/page/1";
 	}
 
 	@GetMapping("/write")
