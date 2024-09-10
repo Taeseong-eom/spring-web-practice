@@ -15,15 +15,29 @@
 <div class="detail">
     <h4>상세페이지</h4>
 
-    <!-- 이미지 URL이 있을 경우 해당 이미지를 표시하고, 없을 경우 기본 이미지를 표시 -->
     <div>
-        <img th:if="${item.imageUrl != null and !item.imageUrl.isEmpty()}" th:src="${item.imageUrl}" alt="Item Image" style="max-width: 300px; max-height: 300px;">
-        <img th:unless="${item.imageUrl != null and !item.imageUrl.isEmpty()}" src="https://placehold.co/300" alt="Placeholder Image" style="max-width: 300px; max-height: 300px;">
+        <img src="https://placehold.co/300" alt="Placeholder Image" style="max-width: 300px; max-height: 300px;">
     </div>
 
     <h4 th:text="${item.title}">제목 없음</h4>
     <p th:text="${item.price + '원'}">가격 없음</p>
 </div>
+
+<div class="comments">
+    <h4>댓글</h4>
+    <ul>
+        <!-- 댓글 리스트를 순회하며 출력 -->
+        <li th:each="comment : ${comments}">
+            <p><strong th:text="${comment.username}">사용자 이름</strong>: <span th:text="${comment.content}">댓글 내용</span></p>
+        </li>
+    </ul>
+</div>
+
+<form action="/comment" method="POST">
+    <input name="content">
+    <input name="parent" th:value="${item.id}" style="display : none">
+    <button>전송</button>
+</form>
 
 </body>
 </html>

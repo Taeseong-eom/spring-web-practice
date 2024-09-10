@@ -1,5 +1,7 @@
 package com.eom.shop.item;
 
+import com.eom.shop.comment.Comment;
+import com.eom.shop.comment.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,6 +19,7 @@ public class ItemController {
 	private final ItemRepository itemRepository;
 	private final ItemService itemService;
 	private final S3Service s3Service;
+	private final CommentRepository commentRepository;
 
 	@GetMapping("/list")
 	String list(Model model) {
@@ -38,11 +42,13 @@ public class ItemController {
 	@GetMapping("/detail/{id}")
 	String detail(@PathVariable Long id, Model model) {
 
+		List<Comment> res = commentRepository.findAllByParentId(id);
 		Optional<Item> result = itemService.findById(id);
 
 		if (result.isPresent()) {
 			Item item = result.get();
 			model.addAttribute("item", item);
+			model.addAttribute("comments", res);
 			return "detail.html";
 		} else {
 			return "redirect:/list";
