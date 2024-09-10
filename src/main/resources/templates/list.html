@@ -13,8 +13,8 @@
 <div th:replace="~{ nav.html::navbar }"></div>
 
 <div class="card" th:each="i:${items}">
-    <img src = "https://placehold.co/300">
-    <div>
+    <img th:if="${i.imageUrl != null and !i.imageUrl.isEmpty()}" th:src="${i.imageUrl}" alt="Item Image" style="max-width: 300px; max-height: 300px;">
+    <img th:unless="${i.imageUrl != null and !i.imageUrl.isEmpty()}" src="https://placehold.co/300" alt="Placeholder Image" style="max-width: 300px; max-height: 300px;">    <div>
         <h4>
             <a th:href="@{/detail/{id}(id=${i.id})}" th:text="${i.title}">바지</a>
         </h4>
@@ -29,15 +29,12 @@
     </div>
 </div>
 
-<!-- Pagination Controls -->
 <div class="pagination">
-    <!-- Previous Button -->
     <button th:if="${currentPage > 1}"
             th:onclick="|window.location.href='@{/list/page/{num}(num=${currentPage - 1})}'|">
         Previous
     </button>
 
-    <!-- Page Number Buttons -->
     <span th:each="pageNum : ${#numbers.sequence(1, totalPages)}">
             <button th:classappend="${pageNum == currentPage} ? 'active'"
                     th:onclick="|window.location.href='@{/list/page/{num}(num=${pageNum})}'|"

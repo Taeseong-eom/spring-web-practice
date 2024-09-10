@@ -11,9 +11,46 @@
 <body>
 
 <form action="/add" method="POST">
-    <input name="title">
-    <input name="price">
+    <input name="title" placeholder="Title">
+    <input name="price" type="number" placeholder="Price">
+    <input type="hidden" name="imageUrl" id="imageUrl">
     <button type="submit">전송</button>
 </form>
+
+
+<input type="file" onchange="getURL(this);">
+
+<img id="uploadedImage" src="" alt="Uploaded Image" style="max-width: 300px; max-height: 300px; display: none;">
+
+<script>
+  async function getURL(e) {
+    let file = e.files[0];
+    if (!file) return;
+
+    let name = encodeURIComponent(file.name);
+    let result = await fetch('/presigned-url?filename=' + name);
+
+    let presignedUrl = await result.text();
+
+    let uploadResult = await fetch(presignedUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        "Content-Type": file.type
+      }
+    });
+
+    if (uploadResult.ok) {
+      let uploadedImageUrl = presignedUrl.split("?")[0];
+
+      const imgElement = document.getElementById('uploadedImage');
+      imgElement.src = uploadedImageUrl;
+      imgElement.style.display = 'block';
+
+      document.getElementById('imageUrl').value = uploadedImageUrl;
+    }
+}
+</script>
+
 </body>
 </html>

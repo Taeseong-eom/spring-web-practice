@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ItemController {
 	private final ItemRepository itemRepository;
 	private final ItemService itemService;
+	private final S3Service s3Service;
 
 	@GetMapping("/list")
 	String list(Model model) {
@@ -40,8 +41,9 @@ public class ItemController {
 
 	@PostMapping("/add")
 	String addPost(@RequestParam String title,
-	               @RequestParam Integer price) {
-		itemService.saveItem(title, price);
+	               @RequestParam Integer price,
+	               @RequestParam String imageUrl) {
+		itemService.saveItem(title, price, imageUrl);
 		return "redirect:/list";
 	}
 
@@ -85,7 +87,7 @@ public class ItemController {
 	}
 
 	@DeleteMapping("/item")
-	ResponseEntity<String> delateItem(@RequestParam Long id){
+	ResponseEntity<String> deleteItem(@RequestParam Long id){
 		itemRepository.deleteById(id);
 		return ResponseEntity.status(200).body("삭제완료");
 	}
@@ -99,5 +101,12 @@ public class ItemController {
 		model.addAttribute("currentPage", num); // 현재 페이지 번호 전달
 		model.addAttribute("totalPages", result.getTotalPages()); // 전체 페이지 수 전달
 		return "list.html";
+	}
+
+	@GetMapping("/presigned-url")
+	@ResponseBody
+	String getURL(@RequestParam String filename){
+		var result = s3Service.createPresignedUrl("test/" + filename);
+		return result;
 	}
 }
