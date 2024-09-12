@@ -106,7 +106,7 @@ public class ItemController {
 	@PostMapping("/search")
 	@ResponseBody
 	String postSearch(@RequestParam String searchText){
-		var result = itemRepository.findAllByTitleContains(searchText);
+		var result = itemRepository.fullTextSearch(searchText);
 		System.out.println(result);
 		return "list.html";
 	}
