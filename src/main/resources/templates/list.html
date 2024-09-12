@@ -12,6 +12,10 @@
 
 <div th:replace="~{ nav.html::navbar }"></div>
 
+<form action="/search" method="POST">
+    <input name="searchText" style="display : inline">
+    <button>검색</button>
+</form>
 <div class="card" th:each="i:${items}">
     <img th:if="${i.imageUrl != null and !i.imageUrl.isEmpty()}" th:src="${i.imageUrl}" alt="Item Image" style="max-width: 300px; max-height: 300px;">
     <img th:unless="${i.imageUrl != null and !i.imageUrl.isEmpty()}" src="https://placehold.co/300" alt="Placeholder Image" style="max-width: 300px; max-height: 300px;">    <div>
